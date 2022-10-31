@@ -1,29 +1,29 @@
+from email.policy import default
+from turtle import title
 from django.db import models
 from datetime import datetime
-from turtle import title
-
 # Create your models here.
-class Artiste(models.Model):
-    first_name = models.CharField(max_length = 500)
-    last_name = models.CharField(max_length = 500)
-    age = models.IntegerField(default = None)
+
+class artiste(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    age = models.IntegerField()
 
     def __str__(self):
         return self.first_name
 
-
-class Song(models.Model):
-    title = models.CharField(max_length = 500)
-    date_released = models.DateField()
+class song(models.Model):
+    artiste = models.ForeignKey(artiste, on_delete=models.CASCADE)
+    title = models.CharField(max_length=50)
+    date_released = models.DateField(default=datetime.today)
     likes = models.IntegerField()
-    artiste_id = models.ForeignKey(Artiste, on_delete = models.CASCADE)
-
+    
     def __str__(self):
         return self.title
 
-class Lyric(models.Model):
-    Content = models.CharField(max_length = 3000)
-    song_id = models.ForeignKey(Song, on_delete = models.CASCADE)
+class lyric(models.Model):
+     song = models.ForeignKey(song, on_delete=models.CASCADE)
+     content = models.CharField(max_length=1500)
 
-    def __str__(self):
-        return self.Content
+     def __str__(self):
+        return self.content
